@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Reference Classifier</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header id="topbar">
+        <div id="article-info"></div>
+        <button id="toggle-list">📚 View All</button>
+    </header>
+
+    <div id="main">
+        <div id="pdf-container">
+            <iframe id="pdf-viewer" src=""></iframe>
+        </div>
+        <div id="controls">
+            <div id="article-list" class="hidden"></div>
+
+            <div class="control-section">
+                <h5>Reference Type</h5>
+                <div id="article-type-buttons" class="button-group"></div>
+            </div>
+
+            <div class="control-section">
+                <h5>Subject of Study</h5>
+                <div id="topic-buttons" class="button-group"></div>
+            </div>
+
+            <div class="control-section">
+                <h5>Motivation</h5>
+                <textarea id="motivation" rows="6" placeholder="Explain your reasoning..."></textarea>
+            </div>
+
+            <div class="control-section buttons">
+                <button id="prev-btn">⬅ Prev</button>
+                <button id="next-btn">Next ➡</button>
+                <button id="download-btn">⬇ Download</button>
+                <button id="upload-btn">⬆ Upload</button>
+                <input type="file" id="upload-input" accept=".json" style="display:none;">
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

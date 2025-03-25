@@ -1,0 +1,125 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    font-family: sans-serif;
+}
+
+#topbar {
+    height: 100px;
+    background: #f7f7f7;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    border-bottom: 1px solid #ccc;
+}
+
+#main {
+    display: flex;
+    height: calc(100vh - 100px);
+    overflow: hidden;
+}
+
+#pdf-container {
+    width: 80%;
+    height: 100%;
+}
+
+#pdf-viewer {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+#controls {
+    width: 20%;
+    padding: 20px;
+    box-sizing: border-box;
+    background: #fff;
+    overflow-y: auto;
+    position: relative;
+    border-left: 1px solid #ddd;
+}
+
+.control-section {
+    margin-bottom: 20px;
+}
+
+.button-group button,
+#toggle-list {
+    margin: 4px 6px 4px 0;
+    padding: 6px 12px;
+    border: 1px solid #999;
+    background-color: #f5f5f5;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.button-group button.selected {
+    background-color: #2e86de;
+    color: white;
+    border-color: #2e86de;
+}
+
+textarea {
+    width: 100%;
+    resize: vertical;
+}
+
+#article-list {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    max-height: 100%;
+    overflow-y: auto;
+    background: white;
+    z-index: 2;
+    border-left: 2px solid #ccc;
+    border-top: 1px solid #ccc;
+    padding: 10px;
+}
+
+#article-list button {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 5px;
+    margin-bottom: 4px;
+    background: #eee;
+    border: none;
+    cursor: pointer;
+}
+
+#article-list button.active {
+    background-color: #2e86de;
+    color: white;
+}
+
+.hidden {
+    display: none;
+}
+
+/*
+i have final.xlsx with a sheet named "json" with the following columns:
+
+ref_index	Zotero Key	year	authors	title	doi	Filename
+
+i want you to write a python script that will convert it into references.json with a list of entry and for each entry:
+
+- ref_index
+- zotero_key
+- year
+- authors
+- title
+- doi
+- filename
+
+the "filename" field is the filename of the pdf inside the "pdfs/" subfolder
+
+*/
