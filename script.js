@@ -1,17 +1,22 @@
 const referenceTypes = [
-    "Single Study", "Book", "Systematic Review", "Meta-Analysis",
-    "Narrative Review / Opinion Piece", "Guideline", "Other"
+    "🧪 Single Study",
+    "📘 Book",
+    "📚 Systematic Review",
+    "📊 Meta-Analysis",
+    "📝 Narrative Review / Opinion Piece",
+    "📄 Guideline",
+    "❓ Other"
 ];
 
 const subjectOfStudy = [
-    "Associated findings and diagnostic methods for SBS and/or AHT",
-    "Race bias",
-    "Biomechanics (e.g., animal studies, crash test dummy simulations)",
-    "Incidence rates of AHT",
-    "Outcomes and Long-Term Effects of AHT",
-    "Legal and Forensic Aspects (e.g., court case, forensic pathology, expert witness reliability)",
-    "Perpetrator characteristics, Risk Factors and Prevention Strategies",
-    "Other (please describe)"
+    "🔬 Associated findings and diagnostic methods for SBS and/or AHT",
+    "🎯 Race bias",
+    "⚙️ Biomechanics (e.g., animal studies, crash test dummy simulations)",
+    "📈 Incidence rates of AHT",
+    "🌱 Outcomes and Long-Term Effects of AHT",
+    "⚖️ Legal and Forensic Aspects (e.g., court case, forensic pathology, expert witness reliability)",
+    "👤 Perpetrator characteristics, Risk Factors and Prevention Strategies",
+    "❓ Other (please describe)"
 ];
 
 let allReferences = [];
@@ -25,6 +30,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const response = await fetch("references.json");
     allReferences = await response.json();
+
+    // Add 'author' field as first author (split by comma)
+    allReferences.forEach(ref => {
+        const firstAuthor = ref.authors.split(",")[0].trim();
+        ref.author = firstAuthor;
+    });
 
     // Remove entries without a valid PDF filename
     allReferences = allReferences.filter(ref => ref.pdf && ref.pdf.trim() !== "");
@@ -63,7 +74,16 @@ function renderOptions(containerId, options, selectedValue, onSelect) {
         btn.textContent = option;
         btn.className = "option-button";
         if (option === selectedValue) btn.classList.add("selected");
-        btn.onclick = () => onSelect(option);
+
+        btn.onclick = () => {
+            // If clicking on the selected option → toggle off
+            if (option === selectedValue) {
+                onSelect(null); // clear the selection
+            } else {
+                onSelect(option); // update selection
+            }
+        };
+
         container.appendChild(btn);
     });
 }
@@ -78,7 +98,7 @@ function displayReference(index) {
 
     // Update top info bar
     document.getElementById("article-info").textContent =
-        `#${String(ref.id).padStart(3, '0')} • ${ref.year} • ${ref.authors} • "${ref.title}" (${index + 1} of ${filteredReferences.length})`;
+        `#${String(ref.id).padStart(3, '0')} • ${ref.year} • ${ref.author} • "${ref.title}" (${index + 1} of ${filteredReferences.length})`;
 
     // Load existing classification
     const entry = classifications[ref.id] || {};
@@ -154,7 +174,7 @@ function renderArticleList() {
     container.innerHTML = "";
     filteredReferences.forEach((ref, idx) => {
         const btn = document.createElement("button");
-        btn.textContent = `#${ref.id} - ${ref.title}`;
+        btn.innerHTML = `<strong>#${ref.id} - ${ref.year} - ${ref.author}</strong> - ${ref.title}`;
         btn.onclick = () => {
             document.getElementById("article-list").classList.add("hidden");
             displayReference(idx);

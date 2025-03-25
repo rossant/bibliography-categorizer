@@ -1,33 +1,39 @@
+/* GENERAL LAYOUT */
 html,
 body {
     margin: 0;
     padding: 0;
     height: 100%;
     overflow: hidden;
-    font-family: sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 #topbar {
-    height: 100px;
+    height: 60px;
     background: #f7f7f7;
-    padding: 20px;
+    padding: 20px 30px;
     box-sizing: border-box;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-weight: bold;
+    font-weight: 600;
     border-bottom: 1px solid #ccc;
+    font-size: 1.25rem;
 }
+
+#article-info {}
 
 #main {
     display: flex;
-    height: calc(100vh - 100px);
+    height: calc(100vh - 60px);
     overflow: hidden;
 }
 
+/* LEFT: PDF VIEWER */
 #pdf-container {
-    width: 80%;
+    width: 70%;
     height: 100%;
+    background: #eee;
 }
 
 #pdf-viewer {
@@ -36,9 +42,10 @@ body {
     border: none;
 }
 
+/* RIGHT: CONTROL PANEL */
 #controls {
-    width: 20%;
-    padding: 20px;
+    width: 30%;
+    padding: 24px;
     box-sizing: border-box;
     background: #fff;
     overflow-y: auto;
@@ -46,80 +53,145 @@ body {
     border-left: 1px solid #ddd;
 }
 
-.control-section {
-    margin-bottom: 20px;
+/* HEADINGS */
+.control-section h5 {
+    margin: 14px 0 8px 0;
+    font-size: 1.25rem;
 }
 
-.button-group button,
-#toggle-list {
-    margin: 4px 6px 4px 0;
-    padding: 6px 12px;
-    border: 1px solid #999;
-    background-color: #f5f5f5;
+/* OPTION BUTTONS */
+.button-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.option-button {
+    flex: 1 1 calc(50% - 8px);
+    /* 2 columns, consistent width */
+    min-width: 160px;
+    padding: 10px 14px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    border-radius: 8px;
     cursor: pointer;
-    border-radius: 4px;
+    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    font-size: 0.9rem;
+    text-align: left;
+    box-sizing: border-box;
+    border-radius: 20px;
 }
 
-.button-group button.selected {
+.option-button:hover {
+    background-color: #eaeaea;
+}
+
+.option-button.selected {
     background-color: #2e86de;
     color: white;
     border-color: #2e86de;
+    box-shadow: 0 0 0 2px rgba(46, 134, 222, 0.2);
+    font-weight: bold;
 }
 
+/* TEXTAREA */
 textarea {
     width: 100%;
     resize: vertical;
+    padding: 10px;
+    font-size: 0.9rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
 }
 
+/* BOTTOM BUTTONS */
+.control-section.buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.control-section.buttons .button-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.control-section.buttons button {
+    flex: 1;
+    padding: 12px 0;
+    font-size: 0.95rem;
+    border: none;
+    border-radius: 5px;
+    background-color: #444;
+    color: white;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.control-section.buttons button:hover {
+    background-color: #2e86de;
+}
+
+/* ARTICLE LIST OVERLAY */
 #article-list {
     position: absolute;
-    top: 0;
-    right: 0;
-    width: 100%;
-    max-height: 100%;
+    top: 80px;
+    right: 40px;
+    width: 400px;
+    max-height: 80vh;
     overflow-y: auto;
-    background: white;
-    z-index: 2;
-    border-left: 2px solid #ccc;
-    border-top: 1px solid #ccc;
-    padding: 10px;
+    background: #fefefe;
+    z-index: 10;
+    border: 2px solid #999;
+    /* border-top: 1px solid #999; */
+    padding: 12px;
+    box-shadow: -2px 0 6px rgba(0, 0, 0, 0.05);
 }
 
 #article-list button {
     display: block;
     width: 100%;
     text-align: left;
-    padding: 5px;
-    margin-bottom: 4px;
-    background: #eee;
-    border: none;
+    padding: 12px 10px;
+    margin-bottom: 6px;
+    font-size: 0.9rem;
+    border: 1px solid #ddd;
+    background: #f9f9f9;
     cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+#article-list button:hover {
+    background: #f0f0f0;
 }
 
 #article-list button.active {
     background-color: #2e86de;
     color: white;
+    border-color: #2e86de;
+    font-weight: bold;
 }
 
 .hidden {
     display: none;
 }
 
-/*
-i have final.xlsx with a sheet named "json" with the following columns:
+/* "View All" button in topbar */
+#toggle-list {
+    background: #2e86de;
+    color: white;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    margin: 5px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
 
-ref_index	Zotero Key	year	authors	title	doi	Filename
-
-i want you to write a python script that will convert it into references.json with a list of entry and for each entry:
-
-- ref_index
-- zotero_key
-- year
-- authors
-- title
-- doi
-- filename
-
-the "filename" field is the filename of the pdf inside the "pdfs/" subfolder
-
-*/
+#toggle-list:hover {
+    background: #1c6ecf;
+}
