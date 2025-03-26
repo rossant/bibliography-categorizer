@@ -42,44 +42,48 @@ body {
     border: none;
 }
 
+
+
+
 /* RIGHT: CONTROL PANEL */
+/* Control section container (right panel) */
 #controls {
     width: 30%;
     padding: 24px;
     box-sizing: border-box;
-    background: #fff;
+    background: #ffffff;
     overflow-y: auto;
-    position: relative;
     border-left: 1px solid #ddd;
 }
 
-/* HEADINGS */
+/* Section headings */
 .control-section h5 {
-    margin: 14px 0 8px 0;
-    font-size: 1.25rem;
+    margin: 10px 0 8px 0;
+    font-size: 1rem;
+    font-weight: 600;
 }
 
-/* OPTION BUTTONS */
+/* Classification option button groups */
 .button-group {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
 }
 
+/* Individual option buttons (fixed width, emojis included) */
 .option-button {
-    flex: 1 1 calc(50% - 8px);
-    /* 2 columns, consistent width */
+    flex: 1 1 calc(50% - 10px);
+    /* two-column layout */
     min-width: 160px;
-    padding: 10px 14px;
+    padding: 10px 12px;
     border: 1px solid #ccc;
-    background-color: #f9f9f9;
+    background-color: #f5f5f5;
     border-radius: 8px;
     cursor: pointer;
-    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
     font-size: 0.9rem;
     text-align: left;
     box-sizing: border-box;
-    border-radius: 20px;
+    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 
 .option-button:hover {
@@ -90,11 +94,11 @@ body {
     background-color: #2e86de;
     color: white;
     border-color: #2e86de;
-    box-shadow: 0 0 0 2px rgba(46, 134, 222, 0.2);
     font-weight: bold;
+    box-shadow: 0 0 0 2px rgba(46, 134, 222, 0.3);
 }
 
-/* TEXTAREA */
+/* Textarea for motivation */
 textarea {
     width: 100%;
     resize: vertical;
@@ -102,36 +106,79 @@ textarea {
     font-size: 0.9rem;
     border-radius: 4px;
     border: 1px solid #ccc;
+    margin-top: 8px;
 }
 
-/* BOTTOM BUTTONS */
+/* BUTTONS SECTION (Prev/Next, Upload/Download, Save) */
 .control-section.buttons {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    margin-top: 20px;
+    gap: 14px;
+    margin-top: 30px;
 }
 
-.control-section.buttons .button-row {
+/* Each row of buttons */
+.button-row {
     display: flex;
     justify-content: space-between;
     gap: 10px;
 }
 
-.control-section.buttons button {
+/* Shared button styles */
+.control-section.buttons button,
+#save-btn {
     flex: 1;
     padding: 12px 0;
     font-size: 0.95rem;
     border: none;
-    border-radius: 5px;
-    background-color: #444;
-    color: white;
+    border-radius: 6px;
     cursor: pointer;
-    transition: background 0.2s ease;
+    color: white;
+    transition: background 0.25s ease, transform 0.1s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.control-section.buttons button:hover {
-    background-color: #2e86de;
+/* Row 1: Navigation */
+/* Prev/Next — Neutral Gray */
+#prev-btn,
+#next-btn {
+    background-color: #d7dce1;
+    color: #333;
+}
+
+#prev-btn:hover,
+#next-btn:hover {
+    background-color: #c1c7cd;
+}
+
+/* Download — Soft Blue */
+#download-btn {
+    background-color: #d2e9fb;
+    color: #1b4f72;
+}
+
+#download-btn:hover {
+    background-color: #b8dbf4;
+}
+
+/* Upload — Soft Purple */
+#upload-btn {
+    background-color: #eadff5;
+    color: #5e437f;
+}
+
+#upload-btn:hover {
+    background-color: #dbceee;
+}
+
+/* Save — Soft Green */
+#save-btn {
+    background-color: #d7f3e3;
+    color: #226b45;
+}
+
+#save-btn:hover {
+    background-color: #c2e9d5;
 }
 
 /* ARTICLE LIST OVERLAY */
@@ -194,4 +241,32 @@ textarea {
 
 #toggle-list:hover {
     background: #1c6ecf;
+}
+
+#notification {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+
+    background: #64b36b;
+    /* success green */
+    color: white;
+    padding: 14px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    font-size: 0.95rem;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.4s ease;
+    z-index: 999;
+}
+
+#notification.error {
+    background: #e74c3c;
+    /* error red */
+}
+
+#notification.show {
+    opacity: 1;
+    transform: translateY(0);
 }

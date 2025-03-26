@@ -25,6 +25,8 @@ let currentIndex = 0;
 let uuid = null;
 let classifications = {};
 
+const sheetEndpoint = "https://script.google.com/macros/s/AKfycbx-bdRmz-7Rz6HhG-2cnkUmgYDvQ2gZqR_BR7YV5UYmOm43jA-7fBRbOZSI2RzhlOCwTg/exec";
+
 document.addEventListener('DOMContentLoaded', async () => {
     uuid = new URLSearchParams(window.location.search).get("uuid");
 
@@ -60,6 +62,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById("download-btn").onclick = downloadClassifications;
     document.getElementById("upload-btn").onclick = () => document.getElementById("upload-input").click();
     document.getElementById("upload-input").addEventListener('change', handleUpload);
+
+    document.getElementById("save-btn").addEventListener("click", submitClassificationsToGoogleSheet);
+
     document.getElementById("toggle-list").onclick = () => {
         document.getElementById("article-list").classList.toggle("hidden");
     };
@@ -150,6 +155,43 @@ function downloadClassifications() {
     URL.revokeObjectURL(url);
 }
 
+function submitClassificationsToGoogleSheet() {
+    const entries = filteredReferences.map(ref => {
+        const entry = classifications[ref.id] || {};
+        return {
+            id: ref.id,
+            year: ref.year || "",
+            authors: ref.authors || "",
+            title: ref.title || "",
+            doi: ref.doi || "",
+            article_type: entry.article_type || "",
+            topic: entry.topic || "",
+            motivation: entry.motivation || ""
+        };
+    }).filter(entry =>
+        entry.article_type || entry.topic || entry.motivation
+    );
+
+    const payload = {
+        uuid: uuid || "unknown",
+        entries
+    };
+
+    fetch(sheetEndpoint, {
+        method: "POST",
+        mode: "no-cors",  // ✅ suppresses CORS check
+        body: JSON.stringify(payload),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+        .then(() => showNotification("✅ Saved successfully"))
+        .catch(err => {
+            console.error("Error saving:", err);
+            showNotification("❌ Failed to save", true);
+        });
+}
+
 function handleUpload(event) {
     const file = event.target.files[0];
     if (!file) return;
@@ -192,4 +234,14 @@ function highlightCurrentInList() {
     const ref = filteredReferences[currentIndex];
     const btn = document.getElementById(`article-btn-${ref.id}`);
     if (btn) btn.classList.add("active");
+}
+
+function showNotification(message, isError = false) {
+    const box = document.getElementById("notification");
+    box.textContent = message;
+    box.className = "show" + (isError ? " error" : "");
+
+    setTimeout(() => {
+        box.className = "hidden";
+    }, 3000); // hide after 3 seconds
 }

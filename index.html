@@ -36,16 +36,32 @@
             </div>
 
             <div class="control-section buttons">
-                <button id="prev-btn">⬅ Prev</button>
-                <button id="next-btn">Next ➡</button>
-                <button id="download-btn">⬇ Download</button>
-                <button id="upload-btn">⬆ Upload</button>
-                <input type="file" id="upload-input" accept=".json" style="display:none;">
+                <!-- Row: Navigation -->
+                <div class="button-row">
+                    <button id="prev-btn">⬅️ Previous</button>
+                    <button id="next-btn">Next ➡️</button>
+                </div>
+
+                <!-- Row: Save to Google Sheet -->
+                <div class="button-row">
+                    <button id="save-btn">💾 Save to Google Sheet</button>
+                </div>
+
+                <!-- Row: File actions -->
+                <div class="button-row">
+                    <button id="download-btn">📥 Download</button>
+                    <button id="upload-btn">📤 Upload</button>
+                    <input type="file" id="upload-input" accept=".json" style="display:none;">
+                </div>
             </div>
+
         </div>
 
         <div id="article-list" class="hidden"></div>
     </div>
+
+
+    <div id="notification" class="hidden"></div>
 
     <script src="script.js"></script>
 </body>
