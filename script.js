@@ -49,7 +49,19 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     loadClassificationsFromStorage();
     renderArticleList();
-    displayReference(0);
+
+    // Find the first unclassified reference (no article_type, topic, or motivation)
+    let firstUnclassifiedIndex = filteredReferences.findIndex(ref => {
+        const entry = classifications[ref.id];
+        return !entry || (!entry.article_type && !entry.topic && !entry.motivation);
+    });
+
+    // Default to 0 if all are classified
+    if (firstUnclassifiedIndex === -1) {
+        firstUnclassifiedIndex = 0;
+    }
+
+    displayReference(firstUnclassifiedIndex);
 
     document.getElementById("prev-btn").onclick = () => {
         if (currentIndex > 0) displayReference(currentIndex - 1);
