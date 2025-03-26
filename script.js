@@ -150,15 +150,26 @@ function loadClassificationsFromStorage() {
 }
 
 function downloadClassifications() {
-    const shortUuid = uuid ? uuid.split("-")[0] : "all";
-    const result = Object.entries(classifications)
-        .filter(([id, entry]) => entry.article_type || entry.topic || entry.motivation)
-        .map(([id, entry]) => ({
-            id,
-            ...entry
-        }));
+    const shortUuid = (uuid || "all").split("-")[0];
 
-    const blob = new Blob([JSON.stringify(result, null, 2)], { type: "application/json" });
+    const entries = filteredReferences.map(ref => {
+        const entry = classifications[ref.id] || {};
+        return {
+            id: ref.id,
+            group: uuid || "",
+            year: ref.year || "",
+            authors: ref.authors || "",
+            title: ref.title || "",
+            doi: ref.doi || "",
+            article_type: entry.article_type || "",
+            topic: entry.topic || "",
+            motivation: entry.motivation || ""
+        };
+    }).filter(entry =>
+        entry.article_type || entry.topic || entry.motivation
+    );
+
+    const blob = new Blob([JSON.stringify(entries, null, 2)], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
