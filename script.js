@@ -19,6 +19,8 @@ const subjectOfStudy = [
     "❓ Other (please describe)"
 ];
 
+const BASEURL = "";
+
 let allReferences = [];
 let filteredReferences = [];
 let currentIndex = 0;
@@ -111,7 +113,7 @@ function displayReference(index) {
     const ref = filteredReferences[index];
 
     // Load PDF
-    document.getElementById("pdf-viewer").src = `pdfs/${ref.pdf}#view=FitH&navpanes=0`;
+    document.getElementById("pdf-viewer").src = `${BASEURL}pdfs/${ref.pdf}#view=FitH&navpanes=0`;
 
     // Update top info bar
     document.getElementById("article-info").textContent =
